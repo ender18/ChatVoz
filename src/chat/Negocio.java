@@ -5,6 +5,8 @@
  */
 package chat;
 
+import Voz.Voz;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
@@ -19,7 +21,7 @@ public class Negocio {
     private Consultas consultas;
     
     /*Inicia el chat dandole la bienvenida al usuario y solicitando su nombre (Nickname)*/
-    public void startChat() throws SQLException{
+    public void startChat() throws SQLException, IOException{
         
         this.doWelcome();
         System.out.println("Iniciando sesión...");
@@ -35,7 +37,7 @@ public class Negocio {
             if (mensaje.isEmpty()) //Aqui va el metodo para enviar mensajes, deteniendo el hilo
             {   this.consultas.changeStatusRead("pause");
                 System.out.print("Su mensaje: ");
-                String msj = this.readLine();
+                String msj = new Voz().reconocimiento();
                 Mensaje msjToSend = new Mensaje(this.nickname, msj);
                 this.consultas.insertarMensaje(msjToSend);
                 this.consultas.changeStatusRead("run");
